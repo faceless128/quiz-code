@@ -1,0 +1,81 @@
+/* main color variables */
+:root {
+    --first-color: #ffffff;
+    --second-color: #16C172;
+    --third-color: #2AFC98;
+    --fourth-color: #09E85E;
+}
+
+/* remove all margins and padding */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: var(--first-color);
+}
+
+/* style for body */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+/* style for header */
+header {
+    padding: 20px 40px;
+}
+
+/* style for header nav */
+header nav  {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    font-size: 24px;
+  }  
+
+  /* style for view high scores */
+#view-high-scores {
+    color: var(--second-color);
+    padding: 20px;
+}
+
+/* style for main */
+main {
+    padding: 100px 25% 0px 25%;
+}
+
+/* style for main area */
+#main-area {
+}
+
+/* style for title text */
+#title-text {
+    font-size: 42px;
+    font-weight: 700;
+}
+
+/* style for main body */
+#main-body {
+    font-size: 30px;
+}
+
+/* style for start quiz */
+#start-quiz {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--first-color);
+    background-color: var(--second-color);
+    padding: 5px 12px;
+    border-radius: 7px;
+    margin-top: 30px;
+}
+
+/* media query style changes for smaller screens */
+@media screen and (max-width: 980px) {
+}
+
+@media screen and (max-width: 768px) {
+}
