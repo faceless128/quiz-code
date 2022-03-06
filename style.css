@@ -71,6 +71,7 @@ main {
     padding: 5px 12px;
     border-radius: 7px;
     margin-top: 30px;
+    display: inline-block;
 }
 
 /* media query style changes for smaller screens */
