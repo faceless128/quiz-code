@@ -82,6 +82,11 @@ main {
     background-color: var(--third-color);
 }
 
+.choice {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 /* media query style changes for smaller screens */
 @media screen and (max-width: 980px) {
 }
