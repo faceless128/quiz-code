@@ -42,6 +42,10 @@ header nav  {
     padding: 20px;
 }
 
+#view-high-scores:hover {
+    color: var(--third-color);
+}
+
 /* style for main */
 main {
     padding: 100px 25% 0px 25%;
@@ -63,7 +67,7 @@ main {
 }
 
 /* style for start quiz */
-#start-quiz {
+.button {
     font-size: 30px;
     font-weight: 600;
     color: var(--first-color);
@@ -72,6 +76,10 @@ main {
     border-radius: 7px;
     margin-top: 30px;
     display: inline-block;
+}
+
+.button:hover {
+    background-color: var(--third-color);
 }
 
 /* media query style changes for smaller screens */
