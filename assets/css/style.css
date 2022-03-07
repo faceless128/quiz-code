@@ -87,6 +87,21 @@ main {
     margin-right: 10px;
 }
 
+/* style for save high score screen */
+form input {
+    outline-color: var(--third-color);
+    padding: 2px;
+    width: auto;
+    font-size: 30px;
+    border: 2px solid var(--second-color);
+    border-radius: 7px;
+  }
+  
+#save-score {
+    border: none;
+    margin-left: 40px;
+}
+
 /* media query style changes for smaller screens */
 @media screen and (max-width: 980px) {
     main {

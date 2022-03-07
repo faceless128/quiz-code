@@ -42,7 +42,7 @@ var askQuestion = function() {
     if (quizCount < 0) {
         console.log("you finished with " + timeLeft);
         clearInterval(quizTimer);
-        saveHighScore();
+        enterHighScore();
         return;
     }
     currentQuestion = quizQuestions[quizCount];
@@ -101,17 +101,26 @@ var checkAnswer = function(clickAnswer) {
     }
 }
 
-// save high score
-var saveHighScore = function() {
+// enter high score
+var enterHighScore = function() {
     console.log(timeLeft);
-    document.querySelector("#view-high-scores").textContent = "View High Scores";
-    document.querySelector(".time").innerHTML = '<h2>Time: <spam id="time">0</spam></h2>';
     document.querySelector("#main-area").innerHTML = mainPageHTML;
-    // var startQuiz = document.querySelector("#start-quiz");
-    // startQuiz.addEventListener("click", startQuizHandler);
-    highScoresScreenHandler();
+    document.querySelector(".time").textContent = "";
+    document.querySelector("#title-text").textContent = "All Done!";
+    document.querySelector("#main-body").textContent = "Your score is " + timeLeft;
+    document.querySelector("#start-quiz").remove();
+    var highScoreEntry = document.createElement("p");
+    highScoreEntry.innerHTML = '<form id="name-form"><input type="text" name="player-name" placeholder="Enter Your Name" /><button class="button" id="save-score" type="submit">Save Score</button>';
+    document.querySelector("#main-area").appendChild(highScoreEntry);
+    var backupHighScore = document.querySelector("#save-score");
+    backupHighScore.addEventListener("click", saveHighScore(playerName, timeLeft));
 
+//  highScoresScreenHandler();
 }
+
+// save high score
+var saveHighScore = function() {}
+
 
 startQuiz.addEventListener("click", startQuizHandler);
 viewHighScores.addEventListener("click", highScoresScreenHandler);
