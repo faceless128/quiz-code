@@ -68,13 +68,19 @@ var highScoresScreenHandler = function() {
     document.querySelector("#view-high-scores").textContent = "";
     document.querySelector(".time").textContent = "";
     document.querySelector("#title-text").textContent = "High Scores";
-    document.querySelector("#main-body").textContent = "24: Joe";
-    document.querySelector("#start-quiz").remove();
+    document.querySelector("#main-body").textContent = "";
+    var startQuizButton = document.querySelector("#start-quiz");
+     if (startQuizButton) startQuizButton.remove();
+     var nameFormDiv = document.querySelector("#name-form");
+     if (nameFormDiv) nameFormDiv.remove();
     var highScoresNav = document.createElement("p");
     highScoresNav.innerHTML = '<span class="button" id="go-back">Go Back</span> <span class="button" id="clear-high-scores">Clear High Scores</span>';
     document.querySelector("#main-area").appendChild(highScoresNav);
     var viewMainPage = document.querySelector("#go-back");
     viewMainPage.addEventListener("click", mainPageHandler);
+    var viewMainPage = document.querySelector("#clear-high-scores");
+    viewMainPage.addEventListener("click", clearScores);
+    displayScores();
 }
 
 // show main page
@@ -127,9 +133,43 @@ var saveHighScore = function(submitForm) {
         var currentPlayer = {player_name: playerName, player_score: timeLeft};
         savedScores.push(currentPlayer);
         console.log(savedScores)
+        saveScoresLS();
+        highScoresScreenHandler();
     }
 }
 
+// save scores to local storage
+var saveScoresLS = function() {
+    localStorage.setItem("scores", JSON.stringify(savedScores));
+};
+
+// load scores from local storage
+var loadScoresLS = function () {
+    savedScores = localStorage.getItem("scores");
+    if (!savedScores) {
+        savedScores = [];
+        return false;
+    }
+    savedScores = JSON.parse(savedScores);
+};
+
+// clear scores in browser and local storage
+var clearScores = function() {
+    localStorage.removeItem("scores");
+    savedScores = [];
+    mainPageHandler();
+}
+
+// display scores
+var displayScores = function() {
+    var highScoresList = document.createElement("p");
+    for (var i = 0; i < savedScores.length; i++) {
+        pushScore = savedScores[i];
+        highScoresList.innerHTML += '<div id="scores-list"><span class="score-number">' + pushScore.player_score + ': </span><span>' + pushScore.player_name + '</span></div>';
+    }
+    document.querySelector("#main-body").appendChild(highScoresList);
+}
+loadScoresLS();
 
 startQuiz.addEventListener("click", startQuizHandler);
 viewHighScores.addEventListener("click", highScoresScreenHandler);
