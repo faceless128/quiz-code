@@ -89,6 +89,10 @@ main {
 
 /* style for scores-list */
 
+#go-back {
+    margin-right: 40px;
+}
+
 .score-number {
     margin-right: 10px;
 }

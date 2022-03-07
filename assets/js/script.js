@@ -1,9 +1,9 @@
 // Quiz questions array
 var quizQuestions = [
     {"question" : "what CSS selector should you use to style one specific element" , "options" : ["id","name","class","div"], "answer" : "id"},
+    {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
     {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
     {"question" : "Which HTML element would you use to link to external Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
-    {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
     {"question" : "which of these is not a semantic HTML element?" , "options" : ["main","nav","img","article"], "answer" :"img"}
 ];
 
@@ -30,7 +30,7 @@ var startQuizHandler = function() {
     var quizTimer = setInterval(function() {
         document.querySelector("#time").textContent = timeLeft; 
         timeLeft--;
-        if (timeLeft < 0 || quizCount< 0) {
+        if (timeLeft < 1 || quizCount< 0) {
             clearInterval(quizTimer);
         }
     }, 1000);
@@ -42,7 +42,6 @@ var startQuizHandler = function() {
 // ask question
 var askQuestion = function() {
     if (quizCount < 0) {
-        console.log("you finished with " + timeLeft);
         clearInterval(quizTimer);
         enterHighScore();
         return;
@@ -65,14 +64,16 @@ var askQuestion = function() {
 
 // show high scores
 var highScoresScreenHandler = function() {
+    softReset()
     document.querySelector("#view-high-scores").textContent = "";
     document.querySelector(".time").textContent = "";
     document.querySelector("#title-text").textContent = "High Scores";
     document.querySelector("#main-body").textContent = "";
-    var startQuizButton = document.querySelector("#start-quiz");
-     if (startQuizButton) startQuizButton.remove();
-     var nameFormDiv = document.querySelector("#name-form");
-     if (nameFormDiv) nameFormDiv.remove();
+    // var startQuizButton = document.querySelector("#start-quiz");
+    //  if (startQuizButton) startQuizButton.remove();
+    document.querySelector("#start-quiz").remove();
+    //  var nameFormDiv = document.querySelector("#name-form");
+    //  if (nameFormDiv) nameFormDiv.remove();
     var highScoresNav = document.createElement("p");
     highScoresNav.innerHTML = '<span class="button" id="go-back">Go Back</span> <span class="button" id="clear-high-scores">Clear High Scores</span>';
     document.querySelector("#main-area").appendChild(highScoresNav);
@@ -92,6 +93,12 @@ var mainPageHandler = function() {
     startQuiz.addEventListener("click", startQuizHandler);
 }
 
+var softReset = function() {
+    document.querySelector("#view-high-scores").textContent = "View High Scores";
+    document.querySelector(".time").innerHTML = '<h2>Time: <spam id="time">0</spam></h2>';
+    document.querySelector("#main-area").innerHTML = mainPageHTML;
+}
+
 // check answer
 var checkAnswer = function(clickAnswer) {
     if (clickAnswer.target.matches(".choice")) {
@@ -101,7 +108,11 @@ var checkAnswer = function(clickAnswer) {
         }
         else {
             document.querySelector(".quiz-answers").remove();
-            timeLeft = timeLeft -10;
+            if (timeLeft > 10) {
+                timeLeft = timeLeft -10;
+            } else {
+                timeLeft = 0;
+            }
             askQuestion();
         }
     }
@@ -109,6 +120,10 @@ var checkAnswer = function(clickAnswer) {
 
 // enter high score
 var enterHighScore = function() {
+    if (timeLeft < 1) {
+        highScoresScreenHandler();
+        return false;
+    }
     document.querySelector("#main-area").innerHTML = mainPageHTML;
     document.querySelector(".time").textContent = "";
     document.querySelector("#title-text").textContent = "All Done!";
@@ -132,7 +147,6 @@ var saveHighScore = function(submitForm) {
     } else {
         var currentPlayer = {player_name: playerName, player_score: timeLeft};
         savedScores.push(currentPlayer);
-        console.log(savedScores)
         saveScoresLS();
         highScoresScreenHandler();
     }
