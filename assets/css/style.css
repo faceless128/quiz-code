@@ -74,7 +74,7 @@ main {
     background-color: var(--second-color);
     padding: 5px 12px;
     border-radius: 7px;
-    margin-top: 30px;
+    margin-top: 10px;
     display: inline-block;
 }
 
@@ -85,6 +85,31 @@ main {
 .choice {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+/* style for scores-list */
+
+#go-back {
+    margin-right: 40px;
+}
+
+.score-number {
+    margin-right: 10px;
+}
+
+/* style for save high score screen */
+form input {
+    outline-color: var(--third-color);
+    padding: 2px;
+    width: auto;
+    font-size: 30px;
+    border: 2px solid var(--second-color);
+    border-radius: 7px;
+  }
+  
+#save-score {
+    border: none;
+    margin-left: 40px;
 }
 
 /* media query style changes for smaller screens */
