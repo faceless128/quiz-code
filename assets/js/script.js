@@ -12,6 +12,8 @@ var quizCount = "";
 var currentQuestion = "";
 var timeLeft = 0;
 var quizTimer = "";
+var playerName = "";
+var savedScores = [];
 
 // event handlers
 var startQuiz = document.querySelector("#start-quiz");
@@ -89,12 +91,10 @@ var checkAnswer = function(clickAnswer) {
     if (clickAnswer.target.matches(".choice")) {
         if (clickAnswer.target.innerHTML === currentQuestion.answer) {
             document.querySelector(".quiz-answers").remove();
-            console.log("right");
             askQuestion();
         }
         else {
             document.querySelector(".quiz-answers").remove();
-            console.log("wrong");
             timeLeft = timeLeft -10;
             askQuestion();
         }
@@ -103,7 +103,6 @@ var checkAnswer = function(clickAnswer) {
 
 // enter high score
 var enterHighScore = function() {
-    console.log(timeLeft);
     document.querySelector("#main-area").innerHTML = mainPageHTML;
     document.querySelector(".time").textContent = "";
     document.querySelector("#title-text").textContent = "All Done!";
@@ -113,13 +112,23 @@ var enterHighScore = function() {
     highScoreEntry.innerHTML = '<form id="name-form"><input type="text" name="player-name" placeholder="Enter Your Name" /><button class="button" id="save-score" type="submit">Save Score</button>';
     document.querySelector("#main-area").appendChild(highScoreEntry);
     var backupHighScore = document.querySelector("#save-score");
-    backupHighScore.addEventListener("click", saveHighScore(playerName, timeLeft));
-
+    backupHighScore.addEventListener("click", saveHighScore);
 //  highScoresScreenHandler();
 }
 
 // save high score
-var saveHighScore = function() {}
+var saveHighScore = function(submitForm) {
+    submitForm.preventDefault();
+    playerName = document.querySelector("input[name='player-name']").value;
+    if (!playerName) {
+       alert("You haven't entered your name!");
+        return false;
+    } else {
+        var currentPlayer = {player_name: playerName, player_score: timeLeft};
+        savedScores.push(currentPlayer);
+        console.log(savedScores)
+    }
+}
 
 
 startQuiz.addEventListener("click", startQuizHandler);
