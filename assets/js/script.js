@@ -2,13 +2,16 @@
 var quizQuestions = [
     {"question" : "what CSS selector should you use to style one specific element" , "options" : ["id","name","class","div"], "answer" : "id"},
     {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
-    {"question" : "WHich HTML element would you use to link toexternal Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
+    {"question" : "Which HTML element would you use to link to external Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
+    {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
     {"question" : "which of these is not a semantic HTML element?" , "options" : ["main","nav","img","article"], "answer" :"img"}
 ];
 
 // variables
 var quizCount = "";
 var currentQuestion = "";
+var timeLeft = 0;
+var quizTimer = "";
 
 // event handlers
 var startQuiz = document.querySelector("#start-quiz");
@@ -21,21 +24,27 @@ var startQuizHandler = function() {
     document.querySelector("#start-quiz").remove();
     document.querySelector("#view-high-scores").textContent = "";
     quizCount = quizQuestions.length -1;
-    var timeLeft = 75;
+    timeLeft = 75;
     var quizTimer = setInterval(function() {
         document.querySelector("#time").textContent = timeLeft; 
         timeLeft--;
-        if (timeLeft <= 0) {
+        if (timeLeft < 0 || quizCount< 0) {
             clearInterval(quizTimer);
         }
     }, 1000);
-    askQuestion();
+    if (timeLeft > 0) {
+        askQuestion();
+    }
 }
 
 // ask question
 var askQuestion = function() {
-    console.log(quizQuestions);
-    console.log(quizCount);
+    if (quizCount < 0) {
+        console.log("you finished with " + timeLeft);
+        clearInterval(quizTimer);
+        saveHighScore();
+        return;
+    }
     currentQuestion = quizQuestions[quizCount];
     document.querySelector("#title-text").textContent = currentQuestion.question;
     var answerChoices = document.createElement("div");
@@ -75,20 +84,33 @@ var mainPageHandler = function() {
     startQuiz.addEventListener("click", startQuizHandler);
 }
 
-// 
+// check answer
 var checkAnswer = function(clickAnswer) {
     if (clickAnswer.target.matches(".choice")) {
-        console.log(clickAnswer.target.innerHTML);
-        console.log(currentQuestion.answer);
         if (clickAnswer.target.innerHTML === currentQuestion.answer) {
             document.querySelector(".quiz-answers").remove();
+            console.log("right");
             askQuestion();
         }
         else {
             document.querySelector(".quiz-answers").remove();
+            console.log("wrong");
+            timeLeft = timeLeft -10;
             askQuestion();
         }
     }
+}
+
+// save high score
+var saveHighScore = function() {
+    console.log(timeLeft);
+    document.querySelector("#view-high-scores").textContent = "View High Scores";
+    document.querySelector(".time").innerHTML = '<h2>Time: <spam id="time">0</spam></h2>';
+    document.querySelector("#main-area").innerHTML = mainPageHTML;
+    // var startQuiz = document.querySelector("#start-quiz");
+    // startQuiz.addEventListener("click", startQuizHandler);
+    highScoresScreenHandler();
+
 }
 
 startQuiz.addEventListener("click", startQuizHandler);
