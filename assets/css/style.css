@@ -123,5 +123,14 @@ form input {
 @media screen and (max-width: 768px) {
     main {
         padding: 100px 5% 0px 5%;
-    }    
+    }
+    header {
+        padding: 20px 20px;
+    }
+    #view-high-scores {
+        padding: 0;
+    }
+    form input {
+        width: 90%;
+    }
 }
