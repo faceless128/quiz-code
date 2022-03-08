@@ -2,8 +2,8 @@
 var quizQuestions = [
     {"question" : "what CSS selector should you use to style one specific element" , "options" : ["id","name","class","div"], "answer" : "id"},
     {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
-    {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
     {"question" : "Which HTML element would you use to link to external Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
+    {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
     {"question" : "which of these is not a semantic HTML element?" , "options" : ["main","nav","img","article"], "answer" :"img"}
 ];
 
@@ -26,17 +26,25 @@ var startQuizHandler = function() {
     document.querySelector("#start-quiz").remove();
     document.querySelector("#view-high-scores").textContent = "";
     quizCount = quizQuestions.length -1;
-    timeLeft = 75;
+    timeLeft = 50;
     var quizTimer = setInterval(function() {
         document.querySelector("#time").textContent = timeLeft; 
         timeLeft--;
         if (timeLeft < 1 || quizCount< 0) {
             clearInterval(quizTimer);
         }
+        if (timeLeft <= 0) {
+            clearInterval(quizTimer);
+            return highScoresScreenHandler();
+        };
     }, 1000);
     if (timeLeft > 0) {
         askQuestion();
     }
+    else  {
+        clearInterval(quizTimer);
+        return highScoresScreenHandler();
+    };
 }
 
 // ask question
@@ -93,6 +101,7 @@ var mainPageHandler = function() {
     startQuiz.addEventListener("click", startQuizHandler);
 }
 
+// injects default HTML into page
 var softReset = function() {
     document.querySelector("#view-high-scores").textContent = "View High Scores";
     document.querySelector(".time").innerHTML = '<h2>Time: <spam id="time">0</spam></h2>';
@@ -147,6 +156,7 @@ var saveHighScore = function(submitForm) {
     } else {
         var currentPlayer = {player_name: playerName, player_score: timeLeft};
         savedScores.push(currentPlayer);
+        savedScores.sort((b, a) => a.player_score - b.player_score);
         saveScoresLS();
         highScoresScreenHandler();
     }
