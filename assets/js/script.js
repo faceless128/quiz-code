@@ -19,6 +19,7 @@ var savedScores = [];
 var startQuiz = document.querySelector("#start-quiz");
 var viewHighScores = document.querySelector("#view-high-scores");
 var mainPageHTML = document.querySelector("#main-area").innerHTML;
+var emergencyExit = document.querySelector("#time");
 
 // start quiz
 var startQuizHandler = function() {
@@ -27,13 +28,15 @@ var startQuizHandler = function() {
     document.querySelector("#view-high-scores").textContent = "";
     quizCount = quizQuestions.length -1;
     timeLeft = 50;
+    document.querySelector("#time").textContent = timeLeft; 
     var quizTimer = setInterval(function() {
-        document.querySelector("#time").textContent = timeLeft; 
+        document.querySelector("#time").textContent = (timeLeft -1); 
         timeLeft--;
-        if (timeLeft < 1 || quizCount< 0) {
+        if (timeLeft < 0 && quizCount < 0) {
             clearInterval(quizTimer);
+            return highScoresScreenHandler();
         }
-        if (timeLeft <= 0) {
+        else if (timeLeft <= 0) {
             clearInterval(quizTimer);
             return highScoresScreenHandler();
         };
@@ -195,5 +198,10 @@ var displayScores = function() {
 }
 loadScoresLS();
 
+var exitGracefully = function(event) {
+    console.log(event)
+}
+
 startQuiz.addEventListener("click", startQuizHandler);
 viewHighScores.addEventListener("click", highScoresScreenHandler);
+emergencyExit.addEventListener("DOMCharacterDataModified", exitGracefully);
