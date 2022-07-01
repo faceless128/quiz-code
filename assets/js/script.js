@@ -1,10 +1,10 @@
 // Quiz questions array
 var quizQuestions = [
-    {"question" : "what CSS selector should you use to style one specific element" , "options" : ["id","name","class","div"], "answer" : "id"},
-    {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
-    {"question" : "Which HTML element would you use to link to external Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
-    {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
-    {"question" : "which of these is not a semantic HTML element?" , "options" : ["main","nav","img","article"], "answer" :"img"}
+  {"question" : "what CSS selector should you use to style one specific element" , "options" : ["id","name","class","div"], "answer" : "id"},
+  {"question" : "How do you write comments in Javascript?" , "options" : ["// //","&lt;!-- --&gt;","/* */","##"], "answer" :"/* */"},
+  {"question" : "Which HTML element would you use to link to external Javascript?" , "options" : ["link","script","a","img"], "answer" :"script"},
+  {"question" : "what CSS property controls how elements are stacked on each other?" , "options" : ["x-axis","y-axis","x-index","z-index"], "answer" :"z-index"},
+  {"question" : "which of these is not a semantic HTML element?" , "options" : ["main","nav","img","article"], "answer" :"img"}
 ];
 
 // variables
@@ -23,54 +23,56 @@ var emergencyExit = document.querySelector("#time");
 
 // start quiz
 var startQuizHandler = function() {
-    document.querySelector("#main-body").remove();
-    document.querySelector("#start-quiz").remove();
-    document.querySelector("#view-high-scores").textContent = "";
-    quizCount = quizQuestions.length -1;
-    timeLeft = 50;
-    document.querySelector("#time").textContent = timeLeft; 
-    var quizTimer = setInterval(function() {
-        document.querySelector("#time").textContent = (timeLeft -1); 
-        timeLeft--;
-        if (timeLeft < 0 && quizCount < 0) {
-            clearInterval(quizTimer);
-            return highScoresScreenHandler();
-        }
-        else if (timeLeft <= 0) {
-            clearInterval(quizTimer);
-            return highScoresScreenHandler();
-        };
-    }, 1000);
-    if (timeLeft > 0) {
-        askQuestion();
-    }
-    else  {
-        clearInterval(quizTimer);
-        return highScoresScreenHandler();
+  document.querySelector("#main-body").remove();
+  document.querySelector("#start-quiz").remove();
+  document.querySelector("#view-high-scores").textContent = "";
+  quizCount = quizQuestions.length -1;
+  timeLeft = 50;
+  document.querySelector("#time").textContent = timeLeft; 
+  var quizTimer = setInterval(function() {
+    document.querySelector("#time").textContent = (timeLeft -1); 
+    timeLeft--;
+    // if (timeLeft < 0 && quizCount < 0) {
+    //     clearInterval(quizTimer);
+    //     return highScoresScreenHandler();
+    // }
+    // else 
+    if (timeLeft < 0) {
+      console.log(timeLeft)
+      clearInterval(quizTimer);
+      return highScoresScreenHandler();
     };
+  }, 1000);
+  if (timeLeft > 0) {
+    askQuestion();
+  }
+  // else  {
+  //     clearInterval(quizTimer);
+  //     return highScoresScreenHandler();
+  // };
 }
 
 // ask question
 var askQuestion = function() {
-    if (quizCount < 0) {
-        clearInterval(quizTimer);
-        enterHighScore();
-        return;
-    }
-    currentQuestion = quizQuestions[quizCount];
-    document.querySelector("#title-text").textContent = currentQuestion.question;
-    var answerChoices = document.createElement("div");
-    answerChoices.className = "quiz-answers";
-    for (var i = 0; i < currentQuestion.options.length; i++) {
-        answerChoices.innerHTML = answerChoices.innerHTML + '<span class="button choice">' + currentQuestion.options[i] + '</span>';
-    }
+  if (quizCount < 0) {
+    clearInterval(quizTimer);
+    enterHighScore();
+    return;
+  }
+  currentQuestion = quizQuestions[quizCount];
+  document.querySelector("#title-text").textContent = currentQuestion.question;
+  var answerChoices = document.createElement("div");
+  answerChoices.className = "quiz-answers";
+  for (var i = 0; i < currentQuestion.options.length; i++) {
+    answerChoices.innerHTML = answerChoices.innerHTML + '<span class="button choice">' + currentQuestion.options[i] + '</span>';
+  }
 
-    document.querySelector("#main-area").appendChild(answerChoices);
+  document.querySelector("#main-area").appendChild(answerChoices);
     
-    var clickAnswer = document.querySelector(".quiz-answers");
-    clickAnswer.addEventListener("click", checkAnswer);
+  var clickAnswer = document.querySelector(".quiz-answers");
+  clickAnswer.addEventListener("click", checkAnswer);
 
-    quizCount--
+  quizCount--
 }
 
 // show high scores
@@ -113,21 +115,21 @@ var softReset = function() {
 
 // check answer
 var checkAnswer = function(clickAnswer) {
-    if (clickAnswer.target.matches(".choice")) {
-        if (clickAnswer.target.innerHTML === currentQuestion.answer) {
-            document.querySelector(".quiz-answers").remove();
-            askQuestion();
-        }
-        else {
-            document.querySelector(".quiz-answers").remove();
-            if (timeLeft > 10) {
-                timeLeft = timeLeft -10;
-            } else {
-                timeLeft = 0;
-            }
-            askQuestion();
-        }
+  if (clickAnswer.target.matches(".choice")) {
+    if (clickAnswer.target.innerHTML === currentQuestion.answer) {
+      document.querySelector(".quiz-answers").remove();
+      askQuestion();
     }
+    else {
+      document.querySelector(".quiz-answers").remove();
+      if (timeLeft > 10) {
+        timeLeft = timeLeft -10;
+      } else {
+        timeLeft = 0;
+      }
+      askQuestion();
+    }
+  }
 }
 
 // enter high score
